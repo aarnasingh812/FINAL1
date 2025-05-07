@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Scanner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <h1>Medicine Scanner</h1>
+            </div>
+            <p class="tagline">Scan medicine packages to get detailed information</p>
+        </header>
+
+        <main>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="camera">
+                    <i class="fas fa-camera"></i> Camera
+                </button>
+                <button class="tab-btn" data-tab="upload">
+                    <i class="fas fa-upload"></i> Upload
+                </button>
+            </div>
+
+            <div class="tab-content active" id="camera-tab">
+                <div class="camera-container">
+                    <video id="camera-feed" autoplay playsinline></video>
+                    <canvas id="camera-canvas" style="display: none;"></canvas>
+                    <div class="camera-overlay">
+                        <div class="scan-area"></div>
+                    </div>
+                    <div class="camera-controls">
+                        <button id="capture-btn">
+                            <i class="fas fa-camera"></i> Capture
+                        </button>
+                    </div>
+                </div>
+                <div class="preview-container" id="camera-preview" style="display: none;">
+                    <img id="camera-preview-img" alt="Captured Image">
+                    <div class="preview-controls">
+                        <button id="retake-btn" class="secondary-btn">
+                            <i class="fas fa-redo"></i> Retake
+                        </button>
+                        <button id="process-camera-btn" class="primary-btn">
+                            <i class="fas fa-check"></i> Process
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="upload-tab">
+                <div class="upload-container">
+                    <div class="upload-area" id="drop-area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag and drop image here or</p>
+                        <label for="file-input" class="upload-btn">Choose File</label>
+                        <input type="file" id="file-input" accept="image/*">
+                    </div>
+                    <div class="preview-container" id="upload-preview" style="display: none;">
+                        <img id="upload-preview-img" alt="Uploaded Image">
+                        <div class="preview-controls">
+                            <button id="change-file-btn" class="secondary-btn">
+                                <i class="fas fa-exchange-alt"></i> Change
+                            </button>
+                            <button id="process-upload-btn" class="primary-btn">
+                                <i class="fas fa-check"></i> Process
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-container" style="display: none;">
+                <div class="result-header">
+                    <h2>Results</h2>
+                    <button id="back-btn" class="secondary-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+                
+                <div class="result-content">
+                    <div class="result-section images-section">
+                        <div class="result-col">
+                            <h3>Original Image</h3>
+                            <div class="image-container">
+                                <img id="result-original-img" alt="Original Image">
+                            </div>
+                        </div>
+                        <div class="result-col">
+                            <h3>Processed Image</h3>
+                            <div class="image-container">
+                                <img id="result-processed-img" alt="Processed Image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-section text-section">
+                        <h3>Extracted Text</h3>
+                        <div class="text-container" id="extracted-text">
+                            <!-- Text will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div class="result-section medicine-info-section">
+                        <div class="medicine-header">
+                            <h3>Medicine Information</h3>
+                            <div class="medicine-name-badge" id="medicine-name-badge">
+                                <!-- Medicine name will be inserted here -->
+                            </div>
+                        </div>
+                        <div class="loading-spinner" id="info-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Searching for information...</p>
+                        </div>
+                        <div class="medicine-info-container" id="medicine-info">
+                            <!-- Medicine info will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                <i class="fas fa-exclamation-circle"></i>
+                <span>DISCLAIMER: This information is for educational purposes only. Always consult a healthcare professional.</span>
+            </p>
+        </footer>
+    </div>
+
+    <div class="modal" id="error-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="close-modal primary-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
